@@ -20,11 +20,13 @@ Options:
 """
 from __init__ import __version__
 import json
+import os
 from docopt import docopt
 import requests
 
-TRELLO_KEY = '65217e4e50a903965f736c3111ca0aa0'
-TRELLO_TOKEN = 'b585a86b71fb937dcd873ebe0d63e1754028ac0020a6ad966ea91209128de019'
+
+TRELLO_KEY = os.environ['TRELLO_KEY']
+TRELLO_TOKEN = os.environ['TRELLO_TOKEN']
 TRELLO_URL = 'https://api.trello.com/1/'
 NAMED_COMMANDS = {'member-boards': 'members/me/boards'}
 NESTED_ENTITIES = {'comments': 'actions/comments'}
