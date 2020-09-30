@@ -6,6 +6,9 @@ Usage:
   base.py boards <id>
   base.py boards <id> [--delete | --update=<data>]
   base.py boards <id> [<nested-entity>]
+  base.py cards [--create=<data>]
+  base.py cards <id>
+  base.py cards <id> [--delete | --update=<data>]
   base.py (-h | --help)
   base.py --version
 
