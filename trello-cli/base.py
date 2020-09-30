@@ -1,4 +1,4 @@
-"""Trello CLI.
+"""DTAC (Docopt Trello API CLI)
 
 Usage:
   base.py member-boards
@@ -79,5 +79,6 @@ def handle_arguments(arguments):
 
 
 if __name__ == '__main__':
-    arguments = docopt(__doc__, version='Trello CLI ' + __version__)
+    # TODO: single source of truth for the CLI name below
+    arguments = docopt(__doc__, version='DTAC (Docopt Trello API CLI) ' + __version__)
     handle_arguments(arguments)
