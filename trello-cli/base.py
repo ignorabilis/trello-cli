@@ -14,6 +14,7 @@ Options:
 
 """
 from __init__ import __version__
+import json
 from docopt import docopt
 import requests
 
@@ -25,13 +26,13 @@ NAMED_COMMANDS = {'member-boards': 'members/me/boards'}
 
 def get_http_method(arguments):
     if arguments['--create']:
-        return 'POST'
+        return ['POST', arguments['--create']]
     elif arguments['--update']:
-        return 'PUT'
+        return ['PUT', arguments['--update']]
     elif arguments['--delete']:
-        return 'DELETE'
+        return ['DELETE', None]
     else:
-        return 'GET'
+        return ['GET', None]
 
 
 def get_trello_command(arguments):
@@ -48,20 +49,23 @@ def get_trello_command(arguments):
 
 
 def handle_arguments(arguments):
-    # response = requests.request(
-    #    'GET', TRELLO_URL + '/members/me/boards', params={'key': TRELLO_KEY, 'token': TRELLO_TOKEN})
-    request_method = get_http_method(arguments)
+    request_method, request_body = get_http_method(arguments)
     command = get_trello_command(arguments)
     id_arg = arguments['<id>']
     final_url = TRELLO_URL + command + ('/' + id_arg if id_arg else '')
+    json_body = json.loads(request_body) if request_body else None
 
-    print(command, id_arg, final_url)
+    # uncomment for debugging
+    # print(request_method, command, id_arg, final_url, json_body)
 
     response = requests.request(
         request_method,
         final_url,
+        json=json_body,
         params={'key': TRELLO_KEY, 'token': TRELLO_TOKEN})
-    print(response)
+
+    # uncomment for debugging
+    # print(response)
     print(response.json())
 
 
