@@ -9,6 +9,7 @@ Usage:
   base.py cards [--create=<data>]
   base.py cards <id>
   base.py cards <id> [--delete | --update=<data>]
+  base.py cards <id> [<nested-entity> --create=<data>]
   base.py (-h | --help)
   base.py --version
 
@@ -26,6 +27,7 @@ TRELLO_KEY = '65217e4e50a903965f736c3111ca0aa0'
 TRELLO_TOKEN = 'b585a86b71fb937dcd873ebe0d63e1754028ac0020a6ad966ea91209128de019'
 TRELLO_URL = 'https://api.trello.com/1/'
 NAMED_COMMANDS = {'member-boards': 'members/me/boards'}
+NESTED_ENTITIES = {'comments': 'actions/comments'}
 
 
 def get_http_method(arguments):
@@ -56,12 +58,12 @@ def handle_arguments(arguments):
     request_method, request_body = get_http_method(arguments)
     command = get_trello_command(arguments)
     id_arg = arguments['<id>']
-    nested_entity_arg = arguments['<nested-entity>']
+    nested_entity_arg = NESTED_ENTITIES[arguments['<nested-entity>']] or arguments['<nested-entity>']
     final_url = TRELLO_URL + command + ('/' + id_arg if id_arg else '') + ('/' + nested_entity_arg if nested_entity_arg else '')
     json_body = json.loads(request_body) if request_body else None
 
     # uncomment for debugging
-    # print(request_method, command, id_arg, final_url, json_body)
+    # print(request_method, command, id_arg, nested_entity_arg, final_url, json_body)
 
     response = requests.request(
         request_method,
