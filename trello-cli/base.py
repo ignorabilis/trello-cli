@@ -5,6 +5,7 @@ Usage:
   base.py boards [--create=<data>]
   base.py boards <id>
   base.py boards <id> [--delete | --update=<data>]
+  base.py boards <id> [<nested-entity>]
   base.py (-h | --help)
   base.py --version
 
@@ -52,7 +53,8 @@ def handle_arguments(arguments):
     request_method, request_body = get_http_method(arguments)
     command = get_trello_command(arguments)
     id_arg = arguments['<id>']
-    final_url = TRELLO_URL + command + ('/' + id_arg if id_arg else '')
+    nested_entity_arg = arguments['<nested-entity>']
+    final_url = TRELLO_URL + command + ('/' + id_arg if id_arg else '') + ('/' + nested_entity_arg if nested_entity_arg else '')
     json_body = json.loads(request_body) if request_body else None
 
     # uncomment for debugging
