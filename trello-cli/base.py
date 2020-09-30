@@ -29,7 +29,7 @@ TRELLO_KEY = os.environ['TRELLO_KEY']
 TRELLO_TOKEN = os.environ['TRELLO_TOKEN']
 TRELLO_URL = 'https://api.trello.com/1/'
 NAMED_COMMANDS = {'member-boards': 'members/me/boards'}
-NESTED_ENTITIES = {'comments': 'actions/comments'}
+NAMED_NESTED_ENTITIES = {'comments': 'actions/comments'}
 
 
 def get_http_method(arguments):
@@ -60,7 +60,7 @@ def handle_arguments(arguments):
     request_method, request_body = get_http_method(arguments)
     command = get_trello_command(arguments)
     id_arg = arguments['<id>']
-    nested_entity_arg = NESTED_ENTITIES[arguments['<nested-entity>']] or arguments['<nested-entity>']
+    nested_entity_arg = NAMED_NESTED_ENTITIES.get(arguments['<nested-entity>'], None) or arguments['<nested-entity>']
     final_url = TRELLO_URL + command + ('/' + id_arg if id_arg else '') + ('/' + nested_entity_arg if nested_entity_arg else '')
     json_body = json.loads(request_body) if request_body else None
 
