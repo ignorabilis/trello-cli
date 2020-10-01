@@ -24,7 +24,8 @@ Options:
 To access the Trello API you will need a key and a token - for more info on generating these check Trello's [Developer API Keys](https://trello.com/app-key). The CLI expects two environment variables, `TRELLO_KEY` & `TRELLO_TOKEN`- if not set a message will be displayed.
 
 ## To add a card with labels on board Y to the X column with labels and a comment:
-- cd into source folder, then all of the following commands should be preceded by `python trello-cli/base.py`
+- cd into source folder and install requirements - `pip install -r requirements.txt`
+- all of the following commands should be preceded by `python trello-cli/base.py`
 - fetch all boards and explore ids - `member-boards`
 - fetch all of the lists on a board (and find id) - `boards <board-id> lists`
 - fetch all of the labels on a board (and find ids) - `boards <board-id> labels`
@@ -43,3 +44,5 @@ To access the Trello API you will need a key and a token - for more info on gene
 - choose a test framework and start adding tests
 - single source of truth - read the docopt help message from this readme - that way a change here would be reflected directly in the code!
 - implement the whole Trello API
+- logging + verbose options
+- custom colors, formatting, others
