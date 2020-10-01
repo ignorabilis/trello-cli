@@ -20,6 +20,8 @@ Options:
   --version     Show version.
 
 ```
+## Credentials
+To access the Trello API you will need a key and a token - for more info on generating these check Trello's [Developer API Keys](https://trello.com/app-key). The CLI expects two environment variables, `TRELLO_KEY` & `TRELLO_TOKEN`- if not set a message will be displayed.
 
 ## To add a card with labels on board Y to the X column with labels and a comment:
 - cd into source folder, then all of the following commands should be preceded by `python trello-cli/base.py`
