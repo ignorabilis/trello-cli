@@ -25,8 +25,19 @@ from docopt import docopt
 import requests
 
 
-TRELLO_KEY = os.environ['TRELLO_KEY']
-TRELLO_TOKEN = os.environ['TRELLO_TOKEN']
+TRELLO_KEY_NAME = 'TRELLO_KEY'
+TRELLO_TOKEN_NAME = 'TRELLO_TOKEN'
+
+
+def get_safe_env_variable(variable_name):
+    try:
+        return os.environ[variable_name]
+    except KeyError:
+        return None
+
+
+TRELLO_KEY = get_safe_env_variable(TRELLO_KEY_NAME)
+TRELLO_TOKEN = get_safe_env_variable(TRELLO_TOKEN_NAME)
 TRELLO_URL = 'https://api.trello.com/1/'
 NAMED_COMMANDS = {'member-boards': 'members/me/boards'}
 NAMED_NESTED_ENTITIES = {'comments': 'actions/comments'}
@@ -60,8 +71,11 @@ def handle_arguments(arguments):
     request_method, request_body = get_http_method(arguments)
     command = get_trello_command(arguments)
     id_arg = arguments['<id>']
-    nested_entity_arg = NAMED_NESTED_ENTITIES.get(arguments['<nested-entity>'], None) or arguments['<nested-entity>']
-    final_url = TRELLO_URL + command + ('/' + id_arg if id_arg else '') + ('/' + nested_entity_arg if nested_entity_arg else '')
+    nested_entity_arg = NAMED_NESTED_ENTITIES.get(
+        arguments['<nested-entity>'], None) or arguments['<nested-entity>']
+    final_url = TRELLO_URL + command + \
+        ('/' + id_arg if id_arg else '') + \
+        ('/' + nested_entity_arg if nested_entity_arg else '')
     json_body = json.loads(request_body) if request_body else None
 
     # uncomment for debugging
@@ -80,5 +94,9 @@ def handle_arguments(arguments):
 
 if __name__ == '__main__':
     # TODO: single source of truth for the CLI name below
-    arguments = docopt(__doc__, version='DTAC (Docopt Trello API CLI) ' + __version__)
-    handle_arguments(arguments)
+    arguments = docopt(
+        __doc__, version='DTAC (Docopt Trello API CLI) ' + __version__)
+    if TRELLO_KEY and TRELLO_TOKEN:
+        handle_arguments(arguments)
+    else:
+        print('Trello API key or token not set! Please set {} and {} environment variables.'.format(TRELLO_KEY_NAME, TRELLO_TOKEN_NAME))
